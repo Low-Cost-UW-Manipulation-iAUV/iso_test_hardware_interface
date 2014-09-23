@@ -5,11 +5,15 @@ project(test_robot)
 find_package(catkin REQUIRED COMPONENTS 
 	roscpp
 	rospy
-	std_msgs
-	genmsg
+	geometry_msgs
+	message_generation
 	controller_manager
 	hardware_interface )
 
+generate_messages(
+	DEPENDENCIES
+	geometry_msgs
+	)
 
 
 ## Declare a catkin package
@@ -26,4 +30,4 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 add_executable(test_robot src/test_robot.cpp)
 target_link_libraries(test_robot ${catkin_LIBRARIES})
-add_dependencies(test_robot std_msgs_generate_messages_cpp)
+add_dependencies(test_robot geometry_msgs_generate_messages_cpp)

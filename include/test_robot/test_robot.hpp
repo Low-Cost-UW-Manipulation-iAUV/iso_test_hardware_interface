@@ -11,8 +11,10 @@
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
 
+#include "geometry_msgs/Vector3.h"
+	
+
 #include "ros/ros.h"
-#include "std_msgs/String.h"
 #include <sstream>
 #include <stdio.h>
 
@@ -27,6 +29,9 @@ namespace test_robot
 		int read(void);
 		int write(void);
 		void update(const ros::TimerEvent&);
+		void sub_callback1(const geometry_msgs::Vector3::ConstPtr&);
+		void sub_callback2(const geometry_msgs::Vector3::ConstPtr&);
+
 	private:
 		ros::NodeHandle nh_;
 
@@ -49,6 +54,9 @@ namespace test_robot
 		double state_x_position, state_x_velocity;
 
 		ros::Publisher shoutout;
+		ros::Subscriber subber1;
+		ros::Subscriber subber2;
+
 
 	};
 

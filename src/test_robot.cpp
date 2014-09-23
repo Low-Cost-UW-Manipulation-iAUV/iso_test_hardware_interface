@@ -8,7 +8,6 @@
 #include <hardware_interface/robot_hw.h>
 
 #include "ros/ros.h"
-#include "std_msgs/String.h"
 #include <sstream>
 #include <stdio.h>
 
@@ -40,8 +39,9 @@ namespace test_robot{
 
 
 		///Advertise the status topic
-		shoutout = nh_.advertise<std_msgs::String>("test_robot", 100);
-		
+		shoutout = nh_.advertise<geometry_msgs::Vector3>("test_robot/out", 100);
+		subber1 = nh_.subscribe<geometry_msgs::Vector3>("test_robot/in1",20, &phoenix_test::sub_callback1, this);
+		subber2 = nh_.subscribe<geometry_msgs::Vector3>("test_robot/in2",20, &phoenix_test::sub_callback2, this);
 
 		///Initialise the controller manager
 		ROS_INFO("test_robot: Loading the controller manager");
@@ -66,6 +66,17 @@ namespace test_robot{
 
 	phoenix_test::~phoenix_test(){}
 
+
+	void phoenix_test::sub_callback1(const geometry_msgs::Vector3::ConstPtr& message){
+		pos[0] = message->x;
+		pos[1] = message->y;
+		pos[2] = message->z;
+	}
+	void phoenix_test::sub_callback2(const geometry_msgs::Vector3::ConstPtr& message){
+		pos[3] = message->x;
+		pos[4] = message->y;
+		pos[5] = message->z;
+	}	
 	/** Update(): read the current joint status, run the controller and update the actuator output
 	*/
 	void phoenix_test::update(const ros::TimerEvent& event){
@@ -96,10 +107,10 @@ namespace test_robot{
 	*/
 	int phoenix_test::write(){
 
-		std_msgs::String msg;
-		std::stringstream ss;
-		ss << "test_robot: cc= " << cmd[0] << ", out= " << state_x_position; 
-		msg.data = ss.str();
+		geometry_msgs::Vector3 msg;
+		msg.x = cmd[0];
+		msg.y = cmd[1];
+		msg.z = cmd[2];
 
 		shoutout.publish(msg);
 	}
