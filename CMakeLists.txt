@@ -28,6 +28,6 @@ catkin_package(
 ## Build talker and listener
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-add_executable(test_robot src/test_robot.cpp)
-target_link_libraries(test_robot ${catkin_LIBRARIES})
+add_executable(test_robot src/test_robot.cpp src/versatile_dynamics.cpp)
+target_link_libraries(test_robot ${catkin_LIBRARIES}  ${roscpp_LIBRARIES} )
 add_dependencies(test_robot geometry_msgs_generate_messages_cpp)

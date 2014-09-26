@@ -15,14 +15,21 @@
 
 namespace test_robot{
 	phoenix_test::phoenix_test(){
+		///set the controller output to 0
+		cmd[0] = 0.0;
+		cmd[1] = 0.0;
+		cmd[2] = 0.0;
+		cmd[3] = 0.0;
+		cmd[4] = 0.0;
+		cmd[5] = 0.0;
 
-		///set the output to 0
-		cmd[0] = 0;
-		cmd[1] = 0;
-		cmd[2] = 0;
-		cmd[3] = 0;
-		cmd[4] = 0;
-		cmd[5] = 0;
+		//and the controller input
+		pos[0] = 0.0;
+		pos[1] = 0.0;
+		pos[2] = 0.0;
+		pos[3] = 0.0;
+		pos[4] = 0.0;
+		pos[5] = 0.0;
 
 		///connect and register the joint state interface
 		hardware_interface::JointStateHandle state_handle_x("x", &pos[0], &vel[0], &eff[0]);
@@ -53,7 +60,10 @@ namespace test_robot{
 			ROS_ERROR("test_robot: Could not find update rate, assuming 50. \n");
 			loop_hz_ = 50;
 			nh_.setParam("/ros_control_iso/parameters/update_rate", loop_hz_);
-		}		
+		}	
+
+		/// setup the simulator
+		set_a_b_from_rosparam();			
 
 		///Set up the control loop by creating a timer and a connected callback
 		ros::Duration update_freq = ros::Duration(1.0/loop_hz_);
@@ -62,6 +72,8 @@ namespace test_robot{
 		/// Reset the joint state
 		state_x_position = 0;
 		state_x_velocity = 0;
+
+
 	}
 
 	phoenix_test::~phoenix_test(){}
@@ -97,8 +109,8 @@ namespace test_robot{
 	*		For testing purpose we only increment the joint state. In real this would read relevant data from sensors or encoders.
 	*/
 	int phoenix_test::read(void){
-		state_x_velocity ++;
-		state_x_position ++;
+
+		pos[0] = dynamics_x.get_out();
 
 	}
 
@@ -107,13 +119,51 @@ namespace test_robot{
 	*/
 	int phoenix_test::write(){
 
+		dynamics_x.put_in(cmd[0], (simulation_rate / loop_hz_));
+
 		geometry_msgs::Vector3 msg;
 		msg.x = cmd[0];
-		msg.y = cmd[1];
-		msg.z = cmd[2];
+		msg.y = pos[0];
+		msg.z = 0;
 
 		shoutout.publish(msg);
 	}
+
+
+	int phoenix_test::set_a_b_from_rosparam(void){
+		double vector_size;
+		/// get the dynamics parameters
+		if (!nh_.getParam("/ros_control_iso/simulation/x/vector_size", vector_size)){
+			  
+			ROS_ERROR("test_robot: Could not find vector_size\n");
+			return EXIT_FAILURE;
+		}	
+
+		///prepare the vector to hold them
+		coeff_b.resize(vector_size);
+		coeff_a.resize(vector_size);
+
+		if (!nh_.getParam("/ros_control_iso/simulation/x/coeff_b", coeff_b)){
+			  
+			ROS_ERROR("test_robot: Could not find coeff_b\n");
+			return EXIT_FAILURE;
+		}		
+		if (!nh_.getParam("/ros_control_iso/simulation/x/coeff_a", coeff_a)){
+			  
+			ROS_ERROR("test_robot: Could not find coeff_a\n");
+			return EXIT_FAILURE;
+		}		
+
+		dynamics_x.reset(coeff_b, coeff_a);		
+
+		if (!nh_.getParam("/ros_control_iso/simulation/x/simulation_rate", simulation_rate)){
+			  
+			ROS_ERROR("test_robot: Could not find simulation_rate\n");
+			return EXIT_FAILURE;
+		}	
+
+	}
+
 } //namespace
 
 

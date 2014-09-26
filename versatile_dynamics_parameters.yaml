@@ -1,0 +1,18 @@
+######################################################################################################################
+# 
+#	This YAML file can be used to load the paramters for the versatile_dynamics class into a RIS parameter server
+#		It assumes that you know how to get the data from the parameter server during the startup of a ROS node.
+#		You can find out how to do this (it's very easy) here: http://wiki.ros.org/roscpp/Overview/Parameter%20Server
+#
+#	Author: Raphael Nagel
+#	Date: 26/Sept/2014
+#	Bristol Robotics Laboratory
+#
+######################################################################################################################
+ros_control_iso:
+  simulation: # Parameters for the versatile_dynamics simulation which is based on an IIR filter 
+    x:
+      coeff_b: [ 0, 0.0222499707936119, 0.02213899878580774] #Numerator
+      coeff_a: [ 1, -1.985111939603063, 0.9851119396030626] #Denominator
+      vector_size: 3  #the length of the above coefficients (BTW both vectors need to be of same size)
+      simulation_rate: 200 #Simulation Rate in Hz

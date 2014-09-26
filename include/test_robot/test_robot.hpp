@@ -12,6 +12,7 @@
 #include <hardware_interface/robot_hw.h>
 
 #include "geometry_msgs/Vector3.h"
+#include "test_robot/versatile_dynamics.hpp"
 	
 
 #include "ros/ros.h"
@@ -33,6 +34,14 @@ namespace test_robot
 		void sub_callback2(const geometry_msgs::Vector3::ConstPtr&);
 
 	private:
+		int set_a_b_from_rosparam(void);
+		// versatile_dynamics coefficients and object
+		std::vector<double> coeff_b, coeff_a;
+		versatile_dynamics dynamics_x;
+		int simulation_rate;
+
+
+
 		ros::NodeHandle nh_;
 
 		hardware_interface::JointStateInterface joint_state_interface;		
