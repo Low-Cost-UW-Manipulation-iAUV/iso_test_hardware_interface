@@ -31,7 +31,7 @@ public:
 	int put_in(double , unsigned int );
 	int put_in(double );
 
-	int get_out(double *);
+	void get_out(double *);
 	double get_out(void);
 private:
 	void shift(double);

@@ -10,11 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
 	controller_manager
 	hardware_interface )
 
-generate_messages(
-	DEPENDENCIES
-	geometry_msgs
-	)
-
 
 ## Declare a catkin package
 catkin_package(

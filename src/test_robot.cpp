@@ -55,11 +55,11 @@ namespace test_robot{
 		controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
 
 		/// Get the required variables from the parameter server and set standard values if not available
-		if (!nh_.getParam("/ros_control_iso/parameters/update_rate", loop_hz_)){
+		if (!nh_.getParam("/ros_control_iso/x/parameters/update_rate", loop_hz_)){
 			  
 			ROS_ERROR("test_robot: Could not find update rate, assuming 50. \n");
 			loop_hz_ = 50;
-			nh_.setParam("/ros_control_iso/parameters/update_rate", loop_hz_);
+			nh_.setParam("/ros_control_iso/x/parameters/update_rate", loop_hz_);
 		}	
 
 		/// setup the simulator
@@ -107,6 +107,7 @@ namespace test_robot{
 
 	/** Read(): testing - increment the joint state
 	*		For testing purpose we only increment the joint state. In real this would read relevant data from sensors or encoders.
+	*	This does read the current state of the dynamics simulation.
 	*/
 	int phoenix_test::read(void){
 
@@ -116,6 +117,7 @@ namespace test_robot{
 
 	/** Write(): testing - publish the control output
 	*		For testing purpose we only publish the output, in real this would change the PWMs of the motor, etc.
+	*	This inputs the newest data into the simulator and calculates the output.
 	*/
 	int phoenix_test::write(){
 

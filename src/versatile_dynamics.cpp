@@ -35,6 +35,7 @@ versatile_dynamics::versatile_dynamics(std::vector<double> b_extern, std::vector
 			in[x] = 0.0;
 			out[x] = 0.0;
 		}
+
 	}
 	printf("coefficent lists b and a are not of same length \n");
 
@@ -121,8 +122,8 @@ int versatile_dynamics::put_in(double force){
 	}
 }
 
-int versatile_dynamics::get_out(double *position){
-	*position = out[0];
+void versatile_dynamics::get_out(double *force){
+	*force = out[0];
 }
 
 double versatile_dynamics::get_out(void){
@@ -146,7 +147,7 @@ void versatile_dynamics::IIR(void){
 	unsigned int x;
 
 	for(x = 0; x < vector_size; x++){
-		out[0] = out[0] +   (b[x] * in[x]) - (a[x] * out[x]) ;
+		out[0] = out[0] +   b[x] * in[x] - a[x] * out[x] ;
 	}
 }
 
