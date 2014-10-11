@@ -16,3 +16,8 @@ ros_control_iso:
       coeff_a: [ 1, -1.985111939603063, 0.9851119396030626] #Denominator
       vector_size: 3  #the length of the above coefficients (BTW both vectors need to be of same size)
       simulation_rate: 200 #Simulation Rate in Hz
+    y:
+      coeff_b: [ 0, 0.0222499707936119, 0.02213899878580774] #Numerator
+      coeff_a: [ 1, -1.985111939603063, 0.9851119396030626] #Denominator
+      vector_size: 3  #the length of the above coefficients (BTW both vectors need to be of same size)
+      simulation_rate: 200 #Simulation Rate in Hz

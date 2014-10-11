@@ -37,14 +37,14 @@ namespace test_robot
 		int set_a_b_from_rosparam(void);
 		// versatile_dynamics coefficients and object
 		std::vector<double> coeff_b, coeff_a;
-		versatile_dynamics dynamics_x;
 		int simulation_rate;
-
-
+		versatile_dynamics dynamics_x;
+		versatile_dynamics dynamics_y;
 
 		ros::NodeHandle nh_;
 
 		hardware_interface::JointStateInterface joint_state_interface;		
+		
 		hardware_interface::EffortJointInterface jnt_eff_interface;
 
 		boost::shared_ptr<controller_manager::ControllerManager> controller_manager_;
