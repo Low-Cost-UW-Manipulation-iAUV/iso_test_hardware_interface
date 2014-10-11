@@ -36,7 +36,7 @@ namespace test_robot{
 		joint_state_interface.registerHandle(state_handle_x);	
         
         /// connect and register the joint state interface for the y DOF
-        hardware_interface::JointStateHandle state_handle_y("y", &pos[1], &vel[1], &eff[1]);
+        hardware_interface::JointStateHandle state_handle_y("yaw", &pos[1], &vel[1], &eff[1]);
         joint_state_interface.registerHandle(state_handle_y); 
 		
         /// register the joint_state_interface
@@ -47,7 +47,7 @@ namespace test_robot{
 		jnt_eff_interface.registerHandle(pos_handle_x);
 
         /// connect and register the joint position interface
-        hardware_interface::JointHandle pos_handle_y(joint_state_interface.getHandle("y"), &cmd[1]);
+        hardware_interface::JointHandle pos_handle_y(joint_state_interface.getHandle("yaw"), &cmd[1]);
         jnt_eff_interface.registerHandle(pos_handle_y);
 
         /// register the joint effort interface

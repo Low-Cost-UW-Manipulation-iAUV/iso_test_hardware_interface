@@ -18,7 +18,6 @@ versatile_dynamics::versatile_dynamics(void){
 }
 ///Creating the object while directly giving it the numerator b, denominator a and update period info.
 versatile_dynamics::versatile_dynamics(std::vector<double> b_extern, std::vector<double> a_extern){
-	unsigned int x;
 	if(b_extern.size() == a_extern.size()){
 		vector_size = b_extern.size();
 
@@ -30,7 +29,7 @@ versatile_dynamics::versatile_dynamics(std::vector<double> b_extern, std::vector
 		out.resize(vector_size);
 		in.resize(vector_size);
 
-		
+		unsigned int x;
 		for(x = 0; x < vector_size; x++){
 			in[x] = 0.0;
 			out[x] = 0.0;
@@ -93,9 +92,8 @@ void versatile_dynamics::set_b(std::vector<double> b_extern){
 
 ///If a controller is feeding the sytem and it is running at a lower frequency you can use this one.
 int versatile_dynamics::put_in(double force, unsigned int num_of_periods_until_next){
-	unsigned int x;
 	if(b.size() == a.size() ){
-
+		unsigned int x;
 		for(x = 0; x < num_of_periods_until_next ; x++){
 			shift(force);
 			IIR();

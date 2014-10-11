@@ -2,6 +2,9 @@ iso_test_hardware_interface
 ===========================
 This is a hardware interface for testing a ros_control effort interface controller.
 
+It works, but atm only takes simulation speed and coefficients from the x DOF and uses them for the offered yaw and x.
+Will not be changed as this was for testing only.
+
 It includes an IIR filter based simulation which is fed with coefficients via the parameter server:
 
 ```yaml
