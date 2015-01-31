@@ -27,13 +27,14 @@ namespace test_robot
 	public:
 		phoenix_test();
 		~phoenix_test();
-		int read(void);
-		int write(void);
+
 		void update(const ros::TimerEvent&);
 		void sub_callback1(const geometry_msgs::Vector3::ConstPtr&);
 		void sub_callback2(const geometry_msgs::Vector3::ConstPtr&);
 
 	private:
+		int read(void);
+		int write(void);		
 		int set_a_b_from_rosparam(void);
 		// versatile_dynamics coefficients and object
 		std::vector<double> coeff_b, coeff_a;
@@ -44,9 +45,7 @@ namespace test_robot
 		ros::NodeHandle nh_;
 
 		hardware_interface::JointStateInterface joint_state_interface;		
-		
 		hardware_interface::EffortJointInterface jnt_eff_interface;
-
 		boost::shared_ptr<controller_manager::ControllerManager> controller_manager_;
 
 		ros::Duration control_period_;
